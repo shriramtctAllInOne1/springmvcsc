@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- <bean class="org.springplugins.web.SelectedAnnotationHandlerMapping">
+		<property name="order" value="0" />
+		<property name="urls">
+			<list>
+				<value>/login/showLogin</value>
+			</list>
+		</property>
+		<property name="interceptors">
+			<list>
+				<ref bean="maintenanceInterceptor" />
+			</list>
+		</property>
+	</bean> -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/login/showLogin" />
+			<ref bean="maintenanceInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<ref bean="localeChangeInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<bean id="maintenanceInterceptor" class="com.springmvc.form.handler.MaintenanceInterceptor">
+		<property name="maintenanceStartTime" value="23" />
+		<property name="maintenanceEndTime" value="24" />
+		<property name="maintenanceMapping" value="/login/maintenance" />
+	</bean>
+</beans>
+
